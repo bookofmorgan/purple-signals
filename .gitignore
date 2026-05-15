@@ -43,7 +43,6 @@ supabase/seed.local.sql
 .supabase-prod
 .vercel
 
-# Local tooling, not part of the project
+# Local-only files
 CLAUDE.md
 .claude/
-cowork-project-setup-guide.md
