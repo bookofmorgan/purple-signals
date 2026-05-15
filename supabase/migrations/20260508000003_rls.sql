@@ -1,5 +1,5 @@
 -- Purple Signals — RLS policies, helper functions, aggregate functions (Phase 0.3)
--- See 03-purple-signals-system-design.md §4 and §5
+-- See docs/system-design.md §4 and §5
 
 -- ============================================================
 -- Helper functions (live in public schema, NOT auth, with explicit search_path)

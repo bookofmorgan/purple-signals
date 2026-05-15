@@ -1,6 +1,6 @@
 -- Purple Signals — dashboard aggregate functions (Phase 0.3)
 -- All SECURITY DEFINER. Org scope is verified against auth context internally.
--- See decisions.md (2026-05-08, security fixes) and 03-purple-signals-system-design.md §5.
+-- See docs/decisions.md (2026-05-08, security fixes) and docs/system-design.md §5.
 
 -- ============================================================
 -- get_cycle_scores(cycle_id) — category averages, threshold-gated

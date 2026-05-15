@@ -1,5 +1,5 @@
 -- Purple Signals — core schema (Phase 0.2)
--- See 03-purple-signals-system-design.md §2
+-- See docs/system-design.md §2
 
 -- Tenants
 CREATE TABLE orgs (

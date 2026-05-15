@@ -28,14 +28,16 @@ Built around three product principles:
 
 ### Prerequisites
 
-- Node 20 or later
+- Node 20 (see `.nvmrc` — `nvm use` picks it up automatically)
 - Docker Desktop (Supabase CLI uses it for local Postgres)
 - Supabase CLI — `brew install supabase/tap/supabase`
+- `psql` client — comes with `libpq` on macOS (`brew install libpq && brew link --force libpq`) or `postgresql-client` on Linux. Only needed for `npm run db:test`.
 - An Anthropic API key (only required for the AI coach surface)
 
 ### First run
 
 ```bash
+nvm use                              # Node 20 from .nvmrc
 npm install
 supabase start                       # boots local Postgres + Auth + Studio + mail-catcher
 cp .env.example .env.local           # then edit — see below
@@ -72,11 +74,17 @@ Plus seven additional `emp3@`–`emp9@demo.com` accounts so the seeded April Pul
 |---|---|
 | `npm run dev` | Next dev server |
 | `npm run build` | Production build |
+| `npm run start` | Run the production build locally |
+| `npm run lint` | `next lint` |
+| `npm run lint:fix` | Fix lint errors that auto-fix |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm run format` | Prettier — write |
+| `npm run format:check` | Prettier — check without writing |
 | `npm run db:start` | `supabase start` |
 | `npm run db:stop` | `supabase stop` |
 | `npm run db:reset` | Wipe + reapply migrations + seed |
 | `npm run db:test` | Run the cross-org isolation test |
+| `npm run clean` | Remove `.next/` and the npm cache directory |
 
 ---
 
@@ -111,6 +119,45 @@ Plus seven additional `emp3@`–`emp9@demo.com` accounts so the seeded April Pul
                 │ Resend (transactional)    │
                 └──────────────────────────┘
 ```
+
+### Project layout
+
+```
+.
+├── docs/                          # spec, architecture, roadmap, ADRs, status, journal
+├── public/                        # static assets
+├── src/
+│   ├── app/                       # Next App Router pages and API routes
+│   │   ├── (auth)/                # login, accept-invite
+│   │   ├── (app)/                 # authenticated user surfaces
+│   │   ├── (admin)/               # super-admin only
+│   │   └── api/                   # route handlers
+│   ├── components/                # UI primitives + feature components
+│   │   ├── ui/                    # button, card, input, slider, etc.
+│   │   ├── dashboard/             # category card, hero, key unlocks, signals list
+│   │   └── growth/                # tiptap editor wrapper
+│   └── lib/
+│       ├── supabase/              # client / server / admin / middleware factories
+│       ├── api-helpers.ts         # requireApiUser, requireApiRole
+│       ├── auth-helpers.ts        # server-side auth gates
+│       ├── coach-context.ts       # AI coach system-prompt builder
+│       ├── types.ts               # hand-written DB + API types
+│       └── utils.ts               # cn() helper
+├── supabase/
+│   ├── config.toml                # local CLI config
+│   ├── migrations/                # schema → RLS → aggregate functions (timestamp-ordered)
+│   ├── seed.sql                   # demo data
+│   └── tests/
+│       └── isolation_test.sql     # cross-org RLS gate, runs in CI
+├── .github/
+│   ├── workflows/ci.yml           # lint + typecheck + build + isolation test
+│   └── dependabot.yml
+├── middleware.ts                  # Next middleware for session refresh + auth gate
+├── package.json
+└── README.md
+```
+
+---
 
 ### Why this stack
 
@@ -233,7 +280,7 @@ What's open:
 - **First pilot data** — author the real 12-question bank (placeholder questions are seeded), finalise canonical category names, provision the first pilot org via `/admin`.
 - **Demo data cleanup** — before sharing the prod URL with a real pilot, remove the seeded demo users from production.
 
-See `STATUS.md` for the live next-actions list and `decisions.md` for architecture-decision history.
+See [`docs/STATUS.md`](docs/STATUS.md) for the live next-actions list and [`docs/decisions.md`](docs/decisions.md) for architecture-decision history.
 
 ---
 
