@@ -98,3 +98,4 @@ Once the local stack is up, work through this list:
 - [ ] `/growth/coach`: send a message, receive streaming response, conversation persists across reload
 - [ ] Direct API hit to `/api/dashboard/scores?cycle_id=<other-org-cycle>` returns insufficient_responses (cross-org leak prevented)
 fix3-test 2026-05-28T22:15
+fix3-test-final 2026-05-28T22:29
