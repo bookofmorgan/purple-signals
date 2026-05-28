@@ -5,6 +5,16 @@ Format: `## YYYY-MM-DD — [Decision title]`
 
 ---
 
+## 2026-05-28 — Cowork git pattern: clone-to-tmp for both pull and push
+
+**Decision:** Keep clone-to-tmp as the pattern for all Cowork git operations (pull and push). Use credential helper to pass the PAT — never embed it in URLs.
+
+**Why:** Three attempted improvements (session ID auto-resolve, direct git from mount, rsync --delete) all failed in Cowork. The mount has no `.git` directory so git cannot run there. The mount does not allow file unlinking so `--delete` causes permission errors. Session ID resolution via `$(ls /sessions/)` or `$(hostname)` both produce wrong values.
+
+**How to apply:** CLAUDE.md patterns are final. Do not attempt to re-optimise them without a confirmed Cowork test. The credential helper (PAT via `-c` flag) is the only improvement over the original pattern and it is already in place.
+
+---
+
 ## 2026-05-08 — Tech stack locked
 
 **Decision:** Next.js 14+ (App Router) + Supabase + Resend + Anthropic Claude API + Vercel

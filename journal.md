@@ -5,6 +5,20 @@ Format: `## YYYY-MM-DD — [Session summary]`
 
 ---
 
+## 2026-05-28 — Cowork git pattern experiment: failed
+
+Ran a series of tests trying to simplify the Cowork git sync pattern. Three proposed improvements all failed in practice:
+
+1. **Session ID auto-resolve** — tried `$(ls /sessions/)` (expands to multi-line list, breaks path) and `$(hostname)` (returns `claude` in Cowork, not the session slug). Neither works. The `<session-id>` placeholder with manual `ls /sessions/` substitution is the only reliable method.
+
+2. **Direct git from mount (Fix 3)** — tried running `git add/commit/push` directly from `$SESSION` (the Cowork mount path). Failed with `fatal: not a git repository`. The mount has no `.git` directory. Clone-to-tmp is required for all git operations, both pull and push.
+
+3. **`rsync --delete`** — caused permission errors. The Cowork mount does not allow file unlinking. Without `--delete`, renames and deletions on the remote do not propagate to the mount, but that is the correct tradeoff given the constraint.
+
+The one real improvement that came out of the experiment: **credential helper pattern** (PAT passed via `-c credential.helper=...` flag, never embedded in clone/push URLs). This was adopted and is now in CLAUDE.md for both patterns.
+
+---
+
 ## 2026-05-08 — Project scaffolded
 
 Project design phase complete. Four planning documents exist in the root: spec, architecture, system design, and roadmap.
