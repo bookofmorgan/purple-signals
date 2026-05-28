@@ -27,6 +27,7 @@ yarn-error.log*
 
 # secrets
 .pat
+.claude/settings.local.json
 
 # supabase
 **/supabase/.branches
